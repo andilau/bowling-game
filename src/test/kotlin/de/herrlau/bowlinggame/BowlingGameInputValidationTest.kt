@@ -1,10 +1,12 @@
 package de.herrlau.bowlinggame
 
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 
+@DisplayName("Input Validation")
 class BowlingGameInputValidationTest {
 
     @Test

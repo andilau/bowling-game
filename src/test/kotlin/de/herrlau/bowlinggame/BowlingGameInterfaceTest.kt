@@ -1,8 +1,10 @@
 package de.herrlau.bowlinggame
 
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("Interface")
 class BowlingGameInterfaceTest {
     @Test
     fun `a bowling game should be created`() {

@@ -1,8 +1,10 @@
 package de.herrlau.bowlinggame
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("Spare")
 class BowlingGameLogicSpareTest {
 
     @Test
