@@ -10,7 +10,7 @@ class BowlingGameLogicSimple {
     @Test
     fun `a bowling game without pins rolled should score 0`() {
         val bowlingGame = BowlingGame()
-        Assertions.assertThat(bowlingGame.score()).isEqualTo(0)
+        Assertions.assertThat(bowlingGame.score).isEqualTo(0)
     }
 
     @Test
@@ -19,7 +19,7 @@ class BowlingGameLogicSimple {
         repeat(20) {
             bowlingGame.roll(0)
         }
-        Assertions.assertThat(bowlingGame.score()).isEqualTo(0)
+        Assertions.assertThat(bowlingGame.score).isEqualTo(0)
     }
 
     @Test
@@ -29,7 +29,7 @@ class BowlingGameLogicSimple {
         repeat(19) {
             bowlingGame.roll(0)
         }
-        Assertions.assertThat(bowlingGame.score()).isEqualTo(1)
+        Assertions.assertThat(bowlingGame.score).isEqualTo(1)
     }
 
     @Test
@@ -38,7 +38,7 @@ class BowlingGameLogicSimple {
         repeat(20) {
             bowlingGame.roll(1)
         }
-        Assertions.assertThat(bowlingGame.score()).isEqualTo(20)
+        Assertions.assertThat(bowlingGame.score).isEqualTo(20)
     }
 
     @Test
@@ -46,7 +46,7 @@ class BowlingGameLogicSimple {
         with(BowlingGame()) {
             roll(4)
             roll(5)
-            Assertions.assertThat(this.score()).isEqualTo(9)
+            Assertions.assertThat(this.score).isEqualTo(9)
         }
     }
 
@@ -57,7 +57,7 @@ class BowlingGameLogicSimple {
                 roll(4)
                 roll(5)
             }
-            Assertions.assertThat(this.score()).isEqualTo(90)
+            Assertions.assertThat(this.score).isEqualTo(90)
         }
     }
 }

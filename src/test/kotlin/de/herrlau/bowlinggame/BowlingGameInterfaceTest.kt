@@ -23,7 +23,7 @@ class BowlingGameInterfaceTest {
     @Test
     fun `a bowling game should give a score`() {
         val bowlingGame = BowlingGame()
-        Assertions.assertThat(bowlingGame.score()).isGreaterThanOrEqualTo(0)
+        Assertions.assertThat(bowlingGame.score).isGreaterThanOrEqualTo(0)
     }
 
     @Test

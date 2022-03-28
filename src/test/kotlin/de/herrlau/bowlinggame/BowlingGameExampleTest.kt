@@ -8,7 +8,7 @@ class BowlingGameExampleTest {
 
     @Test
     fun `given example when constructed from notation should score 133`() {
-        assertThat(game.score()).isEqualTo(133)
+        assertThat(game.score).isEqualTo(133)
     }
 
     @Test
@@ -16,5 +16,4 @@ class BowlingGameExampleTest {
         assertThat(game.toString())
             .startsWith("BowlingGame(rolls=[1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 2, 8, 6])")
     }
-
 }

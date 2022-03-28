@@ -8,8 +8,8 @@ class BowlingGame {
         rolls += pins
     }
 
-    fun score() =
-        rolls
+    val score
+        get() = rolls
             .toFrames()
             .foldIndexed(0) { index, score, frame ->
                 score + when {
@@ -36,17 +36,20 @@ class BowlingGame {
         for (frameIndex in 1..NORMAL_FRAMES) {
             when {
                 // Strike
-                current <= list.lastIndex && list[current] == MAX_PINS ->
+                current <= list.lastIndex && list[current] == MAX_PINS -> {
                     yield(listOf(MAX_PINS))
-                        .also { current++ }
+                    current++
+                }
                 // Spare
-                current + 1 <= list.lastIndex && list[current] + list[current + 1] <= MAX_PINS ->
+                current + 1 <= list.lastIndex && list[current] + list[current + 1] <= MAX_PINS -> {
                     yield(list.subList(current, current + FRAME_SIZE))
-                        .also { current += FRAME_SIZE }
+                    current += FRAME_SIZE
+                }
                 // Open
-                current <= list.lastIndex && list[current] < MAX_PINS ->
+                current <= list.lastIndex && list[current] < MAX_PINS -> {
                     yield(list.subList(current, current + 1))
-                        .also { current += FRAME_SIZE }
+                    current += FRAME_SIZE
+                }
             }
         }
         when {
@@ -66,7 +69,7 @@ class BowlingGame {
     }
 
     override fun toString(): String =
-        "BowlingGame(rolls=$rolls) score=${this.score()}"
+        "BowlingGame(rolls=$rolls) score=${this.score}"
 
     private fun bonus(frame: Int, bonus: Int) = rolls
         .toFrames()
