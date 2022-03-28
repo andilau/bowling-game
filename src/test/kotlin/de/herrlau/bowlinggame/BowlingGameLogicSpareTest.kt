@@ -12,7 +12,7 @@ class BowlingGameLogicSpareTest {
         with(BowlingGame()) {
             roll(6)
             roll(4)
-            assertThat(this.score()).isEqualTo(10)
+            assertThat(this.score).isEqualTo(10)
         }
     }
 
@@ -22,7 +22,7 @@ class BowlingGameLogicSpareTest {
             roll(6)
             roll(4)
             roll(1)
-            assertThat(this.score()).isEqualTo(12)
+            assertThat(this.score).isEqualTo(12)
         }
     }
 
@@ -33,7 +33,7 @@ class BowlingGameLogicSpareTest {
                 roll(6)
                 roll(4)
             }
-            assertThat(this.score()).isEqualTo(16 * 9 + 10)
+            assertThat(this.score).isEqualTo(16 * 9 + 10)
         }
     }
 
@@ -44,7 +44,7 @@ class BowlingGameLogicSpareTest {
                 roll(7)
                 roll(3)
             }
-            assertThat(this.score()).isEqualTo(17 * 9 + 10)
+            assertThat(this.score).isEqualTo(17 * 9 + 10)
         }
     }
 
