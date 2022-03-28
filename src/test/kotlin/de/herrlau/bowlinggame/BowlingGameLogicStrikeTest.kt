@@ -17,31 +17,20 @@ class BowlingGameLogicStrikeTest {
 
     @Test
     fun `a bowling game with a single strike and bonus 4 2 should score 22`() {
-        with(BowlingGame()) {
-            roll(10)
-            roll(4)
-            roll(2)
-            assertThat(this.score()).isEqualTo(22)
-        }
+        val game = BowlingGame.from("X42")
+        assertThat(game.score()).isEqualTo(22)
     }
 
     @Test
     fun `a bowling game with a two strikes and misses should score 30`() {
-        with(BowlingGame()) {
-            roll(10)
-            roll(10)
-            assertThat(this.score()).isEqualTo(30)
-        }
+        val game = BowlingGame.from("XX")
+        assertThat(game.score()).isEqualTo(30)
     }
 
     @Test
     fun `a bowling game with a three strikes and misses should score 60`() {
-        with(BowlingGame()) {
-            roll(10)
-            roll(10)
-            roll(10)
-            assertThat(this.score()).isEqualTo(60)
-        }
+        val game = BowlingGame.from("XXX")
+        assertThat(game.score()).isEqualTo(60)
     }
 
     @Test
@@ -54,14 +43,7 @@ class BowlingGameLogicStrikeTest {
 
     @Test
     fun `a bowling game with a mix of spares and strikes should score 54`() {
-        with(BowlingGame()) {
-            roll(1)
-            roll(9)
-            roll(10)
-            roll(1)
-            roll(9)
-            roll(2)
-            assertThat(this.score()).isEqualTo(54)
-        }
+        val game = BowlingGame.from("19X192")
+        assertThat(game.score()).isEqualTo(54)
     }
 }

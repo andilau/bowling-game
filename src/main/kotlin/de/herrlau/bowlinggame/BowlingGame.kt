@@ -44,10 +44,29 @@ class BowlingGame {
         if (pins !in MISS..MAX_PINS) throw IllegalArgumentException("Invalid pins: $pins")
     }
 
+    override fun toString(): String {
+        return "BowlingGame(rolls=$rolls) score=${this.score()}"
+    }
+
     companion object {
         private const val MAX_PINS = 10
         private const val MISS = 0
         private const val FRAME_SIZE = 2
         private const val NORMAL_FRAME_COUNT = 9
+
+        fun from(notation: String): BowlingGame =
+            BowlingGame().apply {
+                notation.toRolls().forEach { rolls -> this.roll(rolls) }
+            }
+
+        private fun String.toRolls(): List<Int> =
+            mapIndexed { index, symbol ->
+                when (symbol) {
+                    in "0123456789" -> symbol.toString().toInt()
+                    'X' -> 10
+                    '/' -> 10 - this[index - 1].toString().toInt()
+                    else -> throw IllegalArgumentException("Invalid character: $symbol")
+                }
+            }
     }
 }
