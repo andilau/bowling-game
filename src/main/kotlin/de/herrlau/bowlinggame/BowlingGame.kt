@@ -2,10 +2,12 @@ package de.herrlau.bowlinggame
 
 class BowlingGame {
     private val rolls = mutableListOf<Int>()
+
     fun roll(pins: Int) {
         validatePins(pins)
+
         rolls += pins
-        if (pins == MAX_PINS) rolls += MISS // add another miss to align frame for now
+        if (pins == MAX_PINS) rolls += MISS // add another miss to complete frame for now
     }
 
     fun score() =
@@ -17,21 +19,22 @@ class BowlingGame {
                     frame.isSpare() -> MAX_PINS + bonusSpare(index.inc())
                     else -> frame.sum()
                 }
-            }
-            .sum()
+            }.sum()
 
-    private fun bonusSpare(frame: Int) = getFirstOfFrame(frame)
 
-    private fun bonusStrike(frame: Int) = when {
-        getSecondOfFrame(frame) == 0 -> getFirstOfFrame(frame) + getFirstOfFrame(frame + 1) // Strike
-        else -> getFirstOfFrame(frame) + getSecondOfFrame(frame)
+    private fun bonusSpare(index: Int) = getFirstOfFrame(index)
+
+    private fun bonusStrike(index: Int) = if (index <= NORMAL_FRAME_COUNT) when {
+        getSecondOfFrame(index) == 0 -> getFirstOfFrame(index) + getFirstOfFrame(index + 1) // was strike
+        else -> getFirstOfFrame(index) + getSecondOfFrame(index)
     }
+    else 0
 
     private fun getFirstOfFrame(index: Int) =
-        if ((index * FRAME_SIZE) in rolls.indices) rolls[index * 2] else MISS
+        if ((index * FRAME_SIZE) in rolls.indices) rolls[index * FRAME_SIZE] else MISS
 
     private fun getSecondOfFrame(index: Int) =
-        if ((index * FRAME_SIZE + 1) in rolls.indices) rolls[index * 2 + 1] else MISS
+        if ((index * FRAME_SIZE + 1) in rolls.indices) rolls[index * FRAME_SIZE + 1] else MISS
 
     private fun List<Int>.isStrike() = first() == MAX_PINS
 
@@ -45,5 +48,6 @@ class BowlingGame {
         private const val MAX_PINS = 10
         private const val MISS = 0
         private const val FRAME_SIZE = 2
+        private const val NORMAL_FRAME_COUNT = 9
     }
 }
