@@ -2,14 +2,11 @@ package de.herrlau.bowlinggame
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
 class BowlingGameTest {
 
     @Nested
-    @DisplayName("Interface")
     inner class Interface {
         @Test
         fun `a bowling game should be created`() {
@@ -32,8 +29,7 @@ class BowlingGameTest {
     }
 
     @Nested
-    @DisplayName("Simple")
-    inner class Simple {
+    inner class SimpleLogic {
 
         @Test
         fun `a bowling game without pins rolled should score 0`() {
@@ -88,5 +84,38 @@ class BowlingGameTest {
                 assertThat(this.score()).isEqualTo(90)
             }
         }
+    }
+
+    @Nested
+    inner class InputValidation {
+
+        @Test
+        fun `a bowling game should take pins from 0-10`() {
+            val bowlingGame = BowlingGame()
+            bowlingGame.roll(0)
+        }
+
+        @TestFactory
+        fun testValidPins() =
+            listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+                .map { pins ->
+                    DynamicTest.dynamicTest("""A bowling game should accept valid pins: $pins""") {
+                        val bowlingGame = BowlingGame()
+                        Assertions.assertThatNoException()
+                            .isThrownBy { bowlingGame.roll(pins) }
+                    }
+                }
+
+        @TestFactory
+        fun testInValidPins() =
+            listOf(-1, 11, Int.MIN_VALUE, Int.MAX_VALUE)
+                .map { pins ->
+                    DynamicTest.dynamicTest("""A bowling game should reject invalid pins: $pins""") {
+                        val bowlingGame = BowlingGame()
+                        Assertions.assertThatIllegalArgumentException()
+                            .isThrownBy { bowlingGame.roll(pins) }
+                            .withMessage("Invalid pins: $pins")
+                    }
+                }
     }
 }
