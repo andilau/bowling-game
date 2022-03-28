@@ -9,7 +9,7 @@ group = "de.herrlau"
 version = "1.0-SNAPSHOT"
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("de.herrlau.bowlinggame.BowlingGameApp")
 }
 
 repositories {
