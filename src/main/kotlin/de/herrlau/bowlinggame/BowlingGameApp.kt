@@ -1,13 +1,31 @@
 package de.herrlau.bowlinggame
 
+import java.util.*
+
 object BowlingGameApp {
+    private const val TITLE = "Bowling Game App"
+    private const val INSTRUCTION = """Enter pins (0..10) for bowling game or exit (-1)."""
+
+    private val scanner = Scanner(System.`in`)
+    private val bowlingGame = BowlingGame()
 
     @JvmStatic
     fun main(args: Array<String>) {
-        println("Bowling Game App")
+        println(TITLE)
+        println()
+        println(INSTRUCTION)
+        println()
 
-        // Try adding program arguments via Run/Debug configuration.
-        // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-        println("Program arguments: ${args.joinToString()}")
+        while (true) {
+            print("Number of pins: ")
+            val int = scanner.nextInt()
+            if (int == -1) break
+            try {
+                bowlingGame.roll(int)
+            } catch (e: IllegalArgumentException) {
+                println(e.message)
+            }
+        }
+        println("Score: ${bowlingGame.score()}")
     }
 }
