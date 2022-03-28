@@ -1,8 +1,7 @@
 # Bowling-Game
 
 Das Programm ermittelt aus der Punktzahl einzelner Würfe (Rolls)
-beim [Bowling](https://de.wikipedia.org/wiki/Bowlingregeln) die Gesamtpunktzahl (Score) des Spiels. Die Ein- und Ausgabe
-erfolgt über ein einfaches Text-Interface.
+beim [Bowling](https://de.wikipedia.org/wiki/Bowlingregeln) die Gesamtpunktzahl (Score) des Spiels. Die Ein- und Ausgabe erfolgt über ein einfaches Text-Interface.
 
 ## Abhängigkeiten
 
@@ -21,10 +20,10 @@ cd bowling-game
 
 ### Starten
 
-Das Projekt nutzt die Gradle-Build-Umgebung. Es kann wie folgt gestartet werden:
+Das Programm wird wie folgt gestartet:
 
 ```shell
-./gradlew run
+java -jar build/libs/bowling-game-1.0-SNAPSHOT-standalone.jar 
 ```
 
 ### Testen
@@ -37,6 +36,10 @@ Das Projekt nutzt die Gradle-Build-Umgebung. Es kann wie folgt gestartet werden:
 
 - [Wikipedia: Ten-pin bowling](https://en.wikipedia.org/wiki/Ten-pin_bowling#Scoring)
 - [Bowling Score Calculator](https://bowlinggenius.com/#)
+
+## Todo
+
+- Untersuche, warum `./gradlew run` Exception in thread "main" java.util.NoSuchElementException wirft
 
 ## Autor
 
