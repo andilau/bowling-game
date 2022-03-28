@@ -34,7 +34,7 @@ class BowlingGameInputValidationTest {
                     val bowlingGame = BowlingGame()
                     Assertions.assertThatIllegalArgumentException()
                         .isThrownBy { bowlingGame.roll(pins) }
-                        .withMessage("Invalid pins: $pins")
+                        .withMessage("Invalid number of pins: $pins")
                 }
             }
 }
