@@ -26,6 +26,6 @@ object BowlingGameApp {
                 println(e.message)
             }
         }
-        println("Score: ${bowlingGame.score()}")
+        println("Score: ${bowlingGame.score}")
     }
 }
