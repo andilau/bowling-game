@@ -1,8 +1,11 @@
 package de.herrlau.bowlinggame
 
 class BowlingGame {
+    var score = 0
 
-    fun roll(i: Int) {}
+    fun roll(pins: Int) {
+        score += pins
+    }
 
-    fun score(): Int = 0
+    fun score() = score
 }
