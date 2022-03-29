@@ -20,10 +20,14 @@ cd bowling-game
 
 ### Starten
 
-Das Programm wird wie folgt gestartet:
-
+Das Programm wird durch Ausführen des Java-Archivs gestartet,
 ```shell
 java -jar build/libs/bowling-game-1.0-SNAPSHOT-standalone.jar 
+```
+
+Oder durch Starten des Tasks `:run` in der Gradle-Build-Umgebung:
+```shell
+./gradlew :run -q --console=plain
 ```
 
 ### Testen
@@ -36,10 +40,6 @@ java -jar build/libs/bowling-game-1.0-SNAPSHOT-standalone.jar
 
 - [Wikipedia: Ten-pin bowling](https://en.wikipedia.org/wiki/Ten-pin_bowling#Scoring)
 - [Bowling Score Calculator](https://bowlinggenius.com/#)
-
-## Todo
-
-- Untersuche, warum `./gradlew run` Exception in thread "main" java.util.NoSuchElementException wirft
 
 ## Autor
 

@@ -21,6 +21,12 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.22.0")
 }
 
+// Per default the system.in of your gradle build is not wired up with the system.in of the run (JavaExec) task.
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
+
 tasks {
     val fatJar = register<Jar>("fatJar") {
         dependsOn.addAll(listOf("compileJava", "compileKotlin", "processResources")) // We need this for Gradle optimization to work
