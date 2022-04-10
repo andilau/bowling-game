@@ -1,108 +1,52 @@
 package de.herrlau.bowlinggame
 
 class BowlingGame {
+
     private val rolls = mutableListOf<Int>()
 
     fun roll(pins: Int) {
-        rolls.validatePins(pins)
+        if (pins !in PINS_MISS..PINS_MAX)
+            throw IllegalArgumentException("Invalid number of pins: $pins")
         rolls += pins
+        try {
+            rolls.calculate()
+        } catch (e: IllegalArgumentException) {
+            rolls.removeLast()
+            throw e
+        }
     }
 
     val score
-        get() = rolls
-            .toFrames()
-            .foldIndexed(0) { index, score, frame ->
-                score + when {
-                    frame.isStrike() -> MAX_PINS + bonus(index, 2)
-                    frame.isSpare() -> MAX_PINS + bonus(index, 1)
-                    else -> frame.sum()
-                }
-            } + bonusLastFrame()
-
-    private fun List<Int>.validatePins(pins: Int) {
-        if (pins !in MISS..MAX_PINS) throw IllegalArgumentException("Invalid number of pins: $pins")
-
-        toFrames()
-            .lastOrNull()
-            ?.let { frame ->
-                if (frame.isOpen() && frame.first() + pins > MAX_PINS)
-                    throw IllegalArgumentException("Invalid number of pins for open frame $frame: $pins")
-            }
-    }
-
-    private fun List<Int>.toFrames() = sequence {
-        val list = this@toFrames
-        var current = 0
-        for (frameIndex in 1..NORMAL_FRAMES) {
-            when {
-                // Strike
-                current <= list.lastIndex && list[current] == MAX_PINS -> {
-                    yield(listOf(MAX_PINS))
-                    current++
-                }
-                // Spare
-                current + 1 <= list.lastIndex && list[current] + list[current + 1] <= MAX_PINS -> {
-                    yield(list.subList(current, current + FRAME_SIZE))
-                    current += FRAME_SIZE
-                }
-                // Open
-                current <= list.lastIndex && list[current] < MAX_PINS -> {
-                    yield(list.subList(current, current + 1))
-                    current += FRAME_SIZE
-                }
-            }
-        }
-        when {
-            // Strike with Bonus
-            current + 2 <= lastIndex && get(current) == MAX_PINS ->
-                yield(subList(current, current + BONUS_FRAME_SIZE))
-            // Spare with Bonus
-            current + 2 <= lastIndex && get(current) + get(current + 1) == MAX_PINS ->
-                yield(subList(current, current + BONUS_FRAME_SIZE))
-            // No Bonus
-            current + 1 <= lastIndex ->
-                yield(subList(current, current + FRAME_SIZE))
-            // Open Bonus for Strike
-            current <= list.lastIndex && list[current] == MAX_PINS ->
-                yield(listOf(MAX_PINS))
-        }
-    }
+        get() = rolls.calculate()
 
     override fun toString(): String =
-        "BowlingGame(rolls=$rolls) score=${this.score}"
+        "BowlingGame(rolls=$rolls score=" +
+                kotlin.runCatching { score }.getOrNull() + ")"
 
-    private fun bonus(frame: Int, bonus: Int) = rolls
-        .toFrames()
-        .drop(frame + 1)
-        .flatten()
-        .take(bonus)
-        .sum()
-
-    private fun bonusLastFrame(): Int = rolls
-        .toFrames()
-        .drop(NORMAL_FRAMES)
-        .filter { it.size == BONUS_FRAME_SIZE }
-        .firstOrNull()
-        ?.let { bonus ->
+    private fun List<Int>.calculate(frame: Int = 1): Int =
+        if (isNotEmpty() && frame <= 10)
             when {
-                bonus.isSpare() -> bonus[2]
-                bonus.isStrike() -> bonus[1] + bonus[2]
-                else -> MISS
+                isStrike() -> get(0) + getOrElse(1) { 0 } + getOrElse(2) { 0 } + drop(1).calculate(frame + 1)
+                isSpare() -> get(0) + get(1) + getOrElse(2) { 0 } + drop(2).calculate(frame + 1)
+                isOpen() -> get(0) + get(1) + drop(2).calculate(frame + 1)
+                isInvalid() -> throw IllegalArgumentException("Invalid frame $frame: $this")
+                size == 1 -> get(0) + drop(1).calculate(frame + 1)
+                else -> error("Incomplete frame $frame: $this")
             }
-        } ?: MISS
+        //.also { println("$frame: $this + $it") }
+        else 0
 
-    private fun List<Int>.isStrike() = first() == MAX_PINS
+    private fun List<Int>.isStrike() = isNotEmpty() && first() == PINS_MAX
 
-    private fun List<Int>.isSpare() = !isStrike() && sum() == MAX_PINS
+    private fun List<Int>.isSpare() = size >= 2 && !isStrike() && take(2).sum() == PINS_MAX
 
-    private fun List<Int>.isOpen() = !isStrike() && size == 1
+    private fun List<Int>.isOpen() = size >= 2 && this[0] + this[1] < PINS_MAX
+
+    private fun List<Int>.isInvalid() = size >= 2 && this[0] + this[1] > PINS_MAX
 
     companion object {
-        private const val MAX_PINS = 10
-        private const val MISS = 0
-        private const val NORMAL_FRAMES = 9
-        private const val FRAME_SIZE = 2
-        private const val BONUS_FRAME_SIZE = 3
+        private const val PINS_MAX = 10
+        private const val PINS_MISS = 0
 
         fun from(notation: String) =
             BowlingGame().apply {
@@ -113,9 +57,9 @@ class BowlingGame {
             mapIndexed { index, symbol ->
                 when (symbol) {
                     in "0123456789" -> symbol.toString().toInt()
-                    '-' -> MISS
-                    'X' -> MAX_PINS
-                    '/' -> MAX_PINS - this[index - 1].toString().toInt()
+                    '-' -> PINS_MISS
+                    'X' -> PINS_MAX
+                    '/' -> PINS_MAX - this[index - 1].toString().toInt()
                     else -> throw IllegalArgumentException("Invalid character: $symbol")
                 }
             }

@@ -17,7 +17,8 @@ object BowlingGameApp {
         println()
 
         while (true) {
-            print("Number of pins: ")
+            println("$bowlingGame")
+            print("Enter number of pins: ")
             val int = scanner.nextInt()
             if (int == -1) break
             try {

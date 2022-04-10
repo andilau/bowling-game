@@ -22,6 +22,7 @@ class BowlingGameLogicSpareTest {
             roll(6)
             roll(4)
             roll(1)
+            roll(0)
             assertThat(this.score).isEqualTo(12)
         }
     }

@@ -43,7 +43,7 @@ class BowlingGameLogicStrikeTest {
 
     @Test
     fun `a bowling game with a mix of spares and strikes should score 54`() {
-        val game = BowlingGame.from("19X192")
+        val game = BowlingGame.from("19X192-")
         assertThat(game.score).isEqualTo(54)
     }
 }
