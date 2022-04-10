@@ -30,7 +30,7 @@ class BowlingGame {
                 isSpare() -> get(0) + get(1) + getOrElse(2) { 0 } + drop(2).calculate(frame + 1)
                 isOpen() -> get(0) + get(1) + drop(2).calculate(frame + 1)
                 isInvalid() -> throw IllegalArgumentException("Invalid frame $frame: $this")
-                size == 1 -> get(0) + drop(1).calculate(frame + 1)
+                isIncomplete() -> get(0) + drop(1).calculate(frame + 1)
                 else -> error("Incomplete frame $frame: $this")
             }
         //.also { println("$frame: $this + $it") }
@@ -43,6 +43,8 @@ class BowlingGame {
     private fun List<Int>.isOpen() = size >= 2 && this[0] + this[1] < PINS_MAX
 
     private fun List<Int>.isInvalid() = size >= 2 && this[0] + this[1] > PINS_MAX
+
+    private fun List<Int>.isIncomplete() = size == 1
 
     companion object {
         private const val PINS_MAX = 10
