@@ -1,12 +1,9 @@
 package de.herrlau.bowlinggame
 
-import java.util.*
-
 object BowlingGameApp {
     private const val TITLE = "Bowling Game App"
-    private const val INSTRUCTION = """Enter pins (0..10) for bowling game or exit (-1)."""
+    private const val INSTRUCTION = "Enter pins (0..10) for bowling game or exit (-1)."
 
-    private val scanner = Scanner(System.`in`)
     private val bowlingGame = BowlingGame()
 
     @JvmStatic
@@ -17,8 +14,9 @@ object BowlingGameApp {
         println()
 
         while (true) {
-            print("Number of pins: ")
-            val int = scanner.nextInt()
+            println("$bowlingGame")
+            print("Enter number of pins: ")
+            val int = readln().toIntOrNull() ?: continue
             if (int == -1) break
             try {
                 bowlingGame.roll(int)
