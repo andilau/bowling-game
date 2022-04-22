@@ -23,10 +23,9 @@ class BowlingGameConsoleTest {
     @Test
     fun `game console should print title first`() {
         whenever(asker.prompt(anyString())).thenReturn(0)
-        val console =
-            BowlingGameConsole(asker, PrintStream(output))
 
-        console.run(BowlingGame())
+        BowlingGameConsole(asker, PrintStream(output))
+            .run(BowlingGame())
 
         assertThat(output.toString().lines())
             .first()
@@ -36,10 +35,9 @@ class BowlingGameConsoleTest {
     @Test
     fun `game console should print score twenty when all pins ones`() {
         whenever(asker.prompt(anyString())).doReturn(1)
-        val console =
-            BowlingGameConsole(asker, PrintStream(output))
 
-        console.run(BowlingGame())
+        BowlingGameConsole(asker, PrintStream(output))
+            .run(BowlingGame())
 
         assertThat(output.toString().lines().dropLastWhile(String::isEmpty))
             .last()
@@ -51,9 +49,9 @@ class BowlingGameConsoleTest {
         whenever(asker.prompt(anyString())).doReturnConsecutively(
             listOf(0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 0, 0, 0)
         )
-        val console = BowlingGameConsole(asker, PrintStream(output))
-        console.run(BowlingGame())
-        println("output = $output")
+        BowlingGameConsole(asker, PrintStream(output))
+            .run(BowlingGame())
+
         assertThat(output.toString().lines().dropLastWhile(String::isEmpty))
             .last()
             .isEqualTo("Score: 49")
