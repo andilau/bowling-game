@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.6.0"
     application
+    id("info.solidsoft.pitest") version "1.7.4"
 }
 
 group = "de.herrlau"
@@ -42,6 +43,10 @@ tasks {
     build {
         dependsOn(fatJar) // Trigger fat jar creation during build
     }
+}
+
+pitest {
+    avoidCallsTo.set(setOf("kotlin.jvm.internal"))
 }
 
 tasks.test {

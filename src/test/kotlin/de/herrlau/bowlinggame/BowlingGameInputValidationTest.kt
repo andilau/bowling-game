@@ -1,6 +1,7 @@
 package de.herrlau.bowlinggame
 
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
@@ -32,9 +33,18 @@ class BowlingGameInputValidationTest {
             .map { pins ->
                 DynamicTest.dynamicTest("""A bowling game should reject invalid pins: $pins""") {
                     val bowlingGame = BowlingGame()
-                    Assertions.assertThatIllegalArgumentException()
+                    assertThatIllegalArgumentException()
                         .isThrownBy { bowlingGame.roll(pins) }
                         .withMessage("Invalid number of pins: $pins")
                 }
             }
+
+    @Test
+    fun `a bowling game should reject invalid frames`() {
+        val bowlingGame = BowlingGame()
+        bowlingGame.roll(2)
+        assertThatIllegalArgumentException()
+            .isThrownBy { bowlingGame.roll(9) }
+            .withMessage("Invalid frame 1: [2, 9]")
+    }
 }

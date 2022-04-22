@@ -7,11 +7,11 @@ class BowlingGame {
     fun roll(pins: Int) {
         if (pins !in PINS_MISS..PINS_MAX)
             throw IllegalArgumentException("Invalid number of pins: $pins")
-        rolls += pins
+
         try {
-            rolls.calculate()
+            (rolls + pins).calculate()
+            rolls += pins
         } catch (e: IllegalArgumentException) {
-            rolls.removeLast()
             throw e
         }
     }
@@ -29,9 +29,9 @@ class BowlingGame {
                 isStrike() -> get(0) + getOrElse(1) { 0 } + getOrElse(2) { 0 } + drop(1).calculate(frame + 1)
                 isSpare() -> get(0) + get(1) + getOrElse(2) { 0 } + drop(2).calculate(frame + 1)
                 isOpen() -> get(0) + get(1) + drop(2).calculate(frame + 1)
-                isInvalid() -> throw IllegalArgumentException("Invalid frame $frame: $this")
                 isIncomplete() -> get(0) + drop(1).calculate(frame + 1)
-                else -> error("Incomplete frame $frame: $this")
+                isInvalid() -> throw IllegalArgumentException("Invalid frame $frame: $this")
+                else -> error("Unknown error: $this")
             }
         //.also { println("$frame: $this + $it") }
         else 0
