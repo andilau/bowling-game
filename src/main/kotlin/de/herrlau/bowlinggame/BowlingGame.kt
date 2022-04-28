@@ -1,30 +1,64 @@
 package de.herrlau.bowlinggame
 
+private const val PINS_MAX = 10
+private const val FRAMES = 10
+
 class BowlingGame {
 
     private val rolls = mutableListOf<Int>()
 
+    internal val frames get() = rolls.frames()
+
+    val isComplete: Boolean
+        get() = rolls
+            .frames()
+            .takeWhile { it.isScoreable() }
+            .count() == FRAMES
+
     fun roll(pins: Int) {
-        rolls += pins
-    }
-
-    fun score(): Int = frames().flatten().sum()
-
-    fun frames() = sequence {
-        var copy = rolls.toList()
-        while (copy.isNotEmpty()) {
-            if (copy.isStrike() || copy.isSpare())
-                yield(copy.take(3))
+        with((rolls + pins).frames().last()) {
+            if (this.isOk())
+                rolls += pins
             else
-                yield(copy.take(2))
-
-            if (copy.isStrike())
-                copy = copy.drop(1)
-            else
-                copy = copy.drop(2)
+                throw IllegalArgumentException("Invalid pins $pins in frame $this")
         }
     }
 
-    private fun List<Int>.isSpare(): Boolean = take(2).sum() == 10
-    private fun List<Int>.isStrike(): Boolean = first() == 10
+    fun score(): Int = rolls
+        .frames()
+        .take(PINS_MAX)
+        .flatten()
+        .sum()
+
+    fun List<Int>.frames() = sequence {
+        var copy = this@frames.toList()
+        while (copy.isNotEmpty()) {
+            when {
+                copy.isStrike() ->
+                    yield(copy.take(3)).also { copy = copy.drop(1) }
+                copy.isSpare() ->
+                    yield(copy.take(3)).also { copy = copy.drop(2) }
+                else ->
+                    yield(copy.take(2)).also { copy = copy.drop(2) }
+            }
+        }
+    }
+
+    private fun List<Int>.isValid() = isStrike() || isSpare() || isOpen()
+
+    private fun List<Int>.isScoreable() = when {
+        isStrike() || isSpare() -> count() == 3
+        isOpen() -> count() == 2
+        else -> false
+    }
+
+    private fun List<Int>.isOk() = isValid() || isIncomplete()
+
+    private fun List<Int>.isSpare() = take(2).sum() == PINS_MAX
+
+    private fun List<Int>.isStrike() = first() == PINS_MAX
+
+    private fun List<Int>.isOpen() = count() == 2 && take(2).sum() < PINS_MAX
+
+    private fun List<Int>.isIncomplete() = count() == 1 && first() in 0..PINS_MAX
 }
