@@ -1,8 +1,5 @@
 package de.herrlau.bowlinggame
 
-private const val PINS_MAX = 10
-private const val FRAMES = 10
-
 class BowlingGame {
 
     private val rolls = mutableListOf<Int>()
@@ -30,7 +27,11 @@ class BowlingGame {
         .flatten()
         .sum()
 
-    fun List<Int>.frames() = sequence {
+    override fun toString(): String {
+        return "BowlingGame(frames=${frames.toList()} score=${score()})"
+    }
+
+    private fun List<Int>.frames() = sequence {
         var copy = this@frames.toList()
         while (copy.isNotEmpty()) {
             when {
@@ -59,6 +60,10 @@ class BowlingGame {
     private fun List<Int>.isStrike() = first() == PINS_MAX
 
     private fun List<Int>.isOpen() = count() == 2 && take(2).sum() < PINS_MAX
-
     private fun List<Int>.isIncomplete() = count() == 1 && first() in 0..PINS_MAX
+
+    companion object {
+        private const val PINS_MAX = 10
+        private const val FRAMES = 10
+    }
 }
