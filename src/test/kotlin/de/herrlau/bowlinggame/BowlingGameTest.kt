@@ -47,9 +47,15 @@ class BowlingGameTest() {
         }
 
         @Test
-        fun `a bowling game with  rolls should give a score of sum`() {
+        fun `a bowling game with rolls should give a score of sum`() {
             game.rollMany(1, 2, 3)
             assertThat(game.score()).isEqualTo(6)
+        }
+
+        @Test
+        fun `a bowling game with a spare should add next roll to score of sum`() {
+            game.rollMany(5, 5, 6)
+            assertThat(game.score()).isEqualTo(22)
         }
     }
 
@@ -89,6 +95,19 @@ class BowlingGameTest() {
                     )
                 )
         }
+
+        @Test
+        fun `a bowling game should have two frames for with spare`() {
+            game.rollMany(5, 5, 6)
+            assertThat(game.frames().toList())
+                .isEqualTo(
+                    listOf(
+                        listOf(5, 5, 6),
+                        listOf(6)
+                    )
+                )
+        }
+
     }
 
     private fun BowlingGame.rollMany(vararg roll: Int) {

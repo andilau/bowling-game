@@ -13,8 +13,13 @@ class BowlingGame {
     fun frames() = sequence {
         var copy = rolls.toList()
         while (copy.isNotEmpty()) {
-            yield(copy.take(2))
+            if (copy.isSpare())
+                yield(copy.take(3))
+            else
+                yield(copy.take(2))
             copy = copy.drop(2)
         }
     }
+
+    private fun List<Int>.isSpare(): Boolean = take(2).sum() == 10
 }
