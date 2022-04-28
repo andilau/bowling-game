@@ -2,7 +2,19 @@ package de.herrlau.bowlinggame
 
 class BowlingGame {
 
-    fun roll(i: Int) {}
+    private val rolls = mutableListOf<Int>()
 
-    fun score(): Int = 0
+    fun roll(pins: Int) {
+        rolls += pins
+    }
+
+    fun score(): Int = frames().flatten().sum()
+
+    fun frames() = sequence {
+        var copy = rolls.toList()
+        while (copy.isNotEmpty()) {
+            yield(copy.take(2))
+            copy = copy.drop(2)
+        }
+    }
 }
