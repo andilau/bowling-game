@@ -12,6 +12,13 @@ class BowlingGame {
             .takeWhile { it.isScoreable() }
             .count() == FRAMES
 
+    val score: Int
+        get() = rolls
+            .frames()
+            .take(FRAMES)
+            .flatten()
+            .sum()
+
     fun roll(pins: Int) {
         with((rolls + pins).frames().last()) {
             if (this.isOk())
@@ -21,15 +28,8 @@ class BowlingGame {
         }
     }
 
-    fun score(): Int = rolls
-        .frames()
-        .take(PINS_MAX)
-        .flatten()
-        .sum()
-
-    override fun toString(): String {
-        return "BowlingGame(frames=${frames.toList()} score=${score()})"
-    }
+    override fun toString(): String =
+        "BowlingGame(frames=${frames.toList()} score=${score})"
 
     private fun List<Int>.frames() = sequence {
         var copy = this@frames.toList()
@@ -60,6 +60,7 @@ class BowlingGame {
     private fun List<Int>.isStrike() = first() == PINS_MAX
 
     private fun List<Int>.isOpen() = count() == 2 && take(2).sum() < PINS_MAX
+
     private fun List<Int>.isIncomplete() = count() == 1 && first() in 0..PINS_MAX
 
     companion object {

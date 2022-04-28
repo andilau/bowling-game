@@ -6,7 +6,7 @@ beim [Bowling](https://de.wikipedia.org/wiki/Bowlingregeln) die Gesamtpunktzahl 
 ## Abhängigkeiten
 
 - [Gradle](https://gradle.org) Build-Management-Tool
-- [Junit 5](https://junit.org/junit5/) & [AssertJ](https://assertj.github.io/doc/) Test-Bibliotheken
+- [Junit 5](https://junit.org/junit5/), [AssertJ](https://assertj.github.io/doc/), [Mockito-Kotlin](https://github.com/mockito/mockito-kotlin) Test-Bibliotheken
 
 ## Installation
 

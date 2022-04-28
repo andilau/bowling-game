@@ -30,43 +30,43 @@ class BowlingGameTest() {
 
         @Test
         fun `a bowling game without rolls should give a score zero`() {
-            assertThat(game.score()).isEqualTo(0)
+            assertThat(game.score).isEqualTo(0)
         }
 
         @Test
         fun `a bowling game with all rolls zero should give a score zero`() {
             repeat(20) { game.rollMany(0) }
-            assertThat(game.score()).isEqualTo(0)
+            assertThat(game.score).isEqualTo(0)
         }
 
         @Test
         fun `a bowling game with all rolls ones should give a score twenty`() {
             repeat(20) { game.rollMany(1) }
-            assertThat(game.score()).isEqualTo(20)
+            assertThat(game.score).isEqualTo(20)
         }
 
         @Test
         fun `a bowling game with rolls should give a score of sum`() {
             game.rollMany(1, 2, 3)
-            assertThat(game.score()).isEqualTo(6)
+            assertThat(game.score).isEqualTo(6)
         }
 
         @Test
         fun `a bowling game with a spare should add next roll to score of sum`() {
             game.rollMany(5, 5, 6)
-            assertThat(game.score()).isEqualTo(22)
+            assertThat(game.score).isEqualTo(22)
         }
 
         @Test
         fun `a bowling game with a strike should add next two roll to score of sum`() {
             game.rollMany(10, 5, 4)
-            assertThat(game.score()).isEqualTo(28)
+            assertThat(game.score).isEqualTo(28)
         }
 
         @Test
         fun `a bowling game with alls strike should result in perfect score`() {
             repeat(21) { game.roll(10) }
-            assertThat(game.score()).isEqualTo(300)
+            assertThat(game.score).isEqualTo(300)
         }
     }
 

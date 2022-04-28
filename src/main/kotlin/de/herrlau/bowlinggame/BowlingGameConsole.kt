@@ -5,7 +5,7 @@ import java.io.PrintStream
 import java.util.*
 
 class BowlingGameConsole(
-    private val asker: IntegerPrompt,
+    private val prompt: IntegerPrompt,
     private val output: PrintStream
 ) {
 
@@ -17,14 +17,14 @@ class BowlingGameConsole(
 
         while (!game.isComplete) {
             try {
-                val pins = asker.prompt(APP_PROMPT)
+                val pins = prompt.prompt(APP_PROMPT)
                 game.roll(pins)
                 output.println(game)
             } catch (e: IllegalArgumentException) {
                 output.println(e.message)
             }
         }
-        output.println("Score: ${game.score()}")
+        output.println("Score: ${game.score}")
     }
 
     companion object {
