@@ -57,6 +57,12 @@ class BowlingGameTest() {
             game.rollMany(5, 5, 6)
             assertThat(game.score()).isEqualTo(22)
         }
+
+        @Test
+        fun `a bowling game with  a strike should add next two roll to score of sum`() {
+            game.rollMany(10, 5, 4)
+            assertThat(game.score()).isEqualTo(28)
+        }
     }
 
     @Nested
@@ -108,6 +114,17 @@ class BowlingGameTest() {
                 )
         }
 
+        @Test
+        fun `a bowling game should have two frames for with strike`() {
+            game.rollMany(10, 5, 4)
+            assertThat(game.frames().toList())
+                .isEqualTo(
+                    listOf(
+                        listOf(10, 5, 4),
+                        listOf(5, 4)
+                    )
+                )
+        }
     }
 
     private fun BowlingGame.rollMany(vararg roll: Int) {
