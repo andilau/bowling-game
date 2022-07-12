@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.mockito.Mockito.anyString
 import org.mockito.kotlin.*
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
@@ -68,5 +69,22 @@ class BowlingGameConsoleTest {
         assertThat(output.toString().lines().dropLastWhile(String::isEmpty))
             .last()
             .isEqualTo("Score: 300")
+    }
+
+    @Test
+    fun `a game console prompt should prompt and return int`() {
+        val inputStream = ByteArrayInputStream("3\n4\n".toByteArray())
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val ps = PrintStream(byteArrayOutputStream)
+        val integerPrompt = IntegerPrompt(inputStream, ps)
+        val message = "Question?"
+
+        val three = integerPrompt.prompt(message)
+        assertThat(three).isEqualTo(3)
+        assertThat(byteArrayOutputStream.toString()).isEqualTo(message)
+
+        val four = integerPrompt.prompt(message)
+        assertThat(four).isEqualTo(4)
+        assertThat(byteArrayOutputStream.toString()).isEqualTo(message + message)
     }
 }
