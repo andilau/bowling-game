@@ -20,7 +20,7 @@ dependencies {
     testApi("org.junit.jupiter:junit-jupiter-engine:5.11.4")
     testImplementation("org.assertj:assertj-core:3.27.0")
     testImplementation("org.mockito:mockito-inline:5.2.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 
 // Per default the system.in of your gradle build is not wired up with the system.in of the run (JavaExec) task.
