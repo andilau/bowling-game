@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    testApi("org.junit.jupiter:junit-jupiter-engine:5.11.4")
+    testApi("org.junit.jupiter:junit-jupiter-engine:5.12.1")
     testImplementation("org.assertj:assertj-core:3.27.3")
     testImplementation("org.mockito:mockito-inline:5.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
