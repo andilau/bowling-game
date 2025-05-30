@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "2.1.10"
     application
@@ -17,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    testApi("org.junit.jupiter:junit-jupiter-engine:5.11.4")
+    testApi("org.junit.jupiter:junit-jupiter-engine:5.12.2")
     testImplementation("org.assertj:assertj-core:3.27.3")
     testImplementation("org.mockito:mockito-inline:5.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
@@ -47,24 +45,13 @@ tasks {
 }
 
 kotlin {
-   jvmToolchain(17)
+    jvmToolchain(17)
 }
 
-tasks.test {
-    useJUnitPlatform()
-
-    testLogging {
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-        showCauses = true
-        showExceptions = true
-        showStackTraces = true
-        showStandardStreams = true
-        events = setOf(
-            org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
-            org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED,
-            org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
-            org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
-            org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
-        )
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+        }
     }
 }
