@@ -1,0 +1,29 @@
+# .github/workflows/ci.yml
+# GitHub Actions documentation
+# => https://docs.github.com/en/actions
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: adopt
+          cache: gradle
+
+      - name: Build with Gradle
+        run: ./gradlew build
