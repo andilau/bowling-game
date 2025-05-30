@@ -46,6 +46,10 @@ tasks {
     }
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
