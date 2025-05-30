@@ -46,6 +46,10 @@ tasks {
     }
 }
 
+kotlin {
+   jvmToolchain(17)
+}
+
 tasks.test {
     useJUnitPlatform()
 
@@ -63,8 +67,4 @@ tasks.test {
             org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
         )
     }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
 }
